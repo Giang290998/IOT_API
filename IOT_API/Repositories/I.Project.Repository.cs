@@ -6,6 +6,7 @@ namespace IOT_API.Repositories;
 public interface IProjectRepository
 {
     Task<int> Create(CreateProjectViewModel createProjectViewModel);
+    Task<bool> Authenticate(int project_id);
     Task<bool> UpdateOwn(int? user_id);
 
     Task<bool> UpdateStaff(string? user_id_staff, int? level);

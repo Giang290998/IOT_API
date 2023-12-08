@@ -11,6 +11,7 @@ public interface IUserRepository
     bool VerifyOTP(string otp);
     Task<bool> ActiveUser(string otp);
     Task<User?> GetByPhone(string phone);
+    Task<User?> GetById(int id);
     // Task<User?> GetByEmail(string email);
     // Task<User?> GetByUsername(string username);
     // Task<User> GetUserByUsernameAsync(string username);

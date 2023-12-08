@@ -49,6 +49,17 @@ public class UserRepository : IUserRepository
         return user;
     }
 
+    public async Task<User?> GetById(int id)
+    {
+        IEnumerable<User> result = await _context.Users.FromSqlRaw($"SELECT * FROM users WHERE id = {id} LIMIT 1;").ToListAsync();
+
+        User? user = result.FirstOrDefault();
+
+        if (user == null) return null;
+
+        return user;
+    }
+
     public async Task<bool> SendOTP()
     {
         int user_id = HttpContextExtension.GetUserId(_httpContextAccessor.HttpContext);

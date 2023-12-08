@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using IOT_API.Models;
 using IOT_API.ViewModels;
 using Microsoft.IdentityModel.Tokens;
+using IOT_API.Extensions;
 
 namespace IOT_API.Repositories;
 
@@ -33,15 +34,43 @@ public class ProjectRepository : IProjectRepository
         return Task.FromResult(result.FirstOrDefault());
     }
 
+    public Task<bool> Authenticate(int project_id)
+    {
+        int user_id = HttpContextExtension.GetUserId(_httpContextAccessor.HttpContext);
+
+        string query = $"SELECT EXISTS (SELECT 1 FROM projects WHERE id = {project_id} AND own = {user_id} AND is_delete = FALSE) AS result;";
+
+        var result = _context.Database.SqlQueryRaw<bool>(query).ToList();
+
+        if (result.FirstOrDefault())
+        {
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+
+            _httpContextAccessor.HttpContext.Items["project_id"] = project_id;
+
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+        }
+
+        return Task.FromResult(result.FirstOrDefault());
+    }
+
     public async Task<bool> UpdateOwn(int? user_id)
     {
         Console.WriteLine(user_id);
         return await Task.FromResult(true);
     }
 
-    public async Task<bool> UpdateStaff(string? user_id_staff, int? level)
+    public async Task<bool> UpdateStaff(string? user_id, int? level)
     {
-        Console.WriteLine(user_id_staff);
+        int project_id = HttpContextExtension.GetProjectId(_httpContextAccessor.HttpContext);
+
+        string staff_update = $"'{user_id}': {level}";
+
+        string query = $"UPDATE projects SET staff = staff || '{"2": 1}'::jsonb WHERE id = {project_id};";
+        Console.WriteLine(query);
+        // _ = _context.Database.SqlQueryRaw<bool>(query).ToList();
+
+        Console.WriteLine(user_id);
         Console.WriteLine(level);
         return await Task.FromResult(true);
     }

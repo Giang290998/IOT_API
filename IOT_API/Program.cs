@@ -6,8 +6,8 @@ using Serilog;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using IOT_API.MQTT;
 using IOT_API.Hubs;
-using MQTTnet;
 
 
 DotNetEnv.Env.Load();
@@ -47,13 +47,15 @@ builder.Services.AddSingleton(provider =>
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 builder.Services.AddScoped<IAdminRepository, AdminRepository>();
-builder.Services.AddScoped<IDeviceDataRepository, DeviceDataRepository>();
+builder.Services.AddScoped<IMQTTRepository, MQTTRepository>();
+builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 
 //Add  services
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<IAdminService, AdminService>();
-builder.Services.AddScoped<IDeviceDataService, DeviceDataService>();
+builder.Services.AddScoped<IMQTTService, MQTTService>();
+builder.Services.AddScoped<IProjectService, ProjectService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -80,17 +82,26 @@ builder.Services.AddAuthentication(
     }
 );
 builder.Services.AddHttpContextAccessor();
-// builder.Services.AddSignalR();
+builder.Services.AddSignalR();
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(
         policy =>
         {
             policy.WithOrigins(Environment.GetEnvironmentVariable("IOT_CLIENT") ?? "*");
+            policy.AllowCredentials();
+            policy.AllowAnyHeader();
+            policy.AllowAnyMethod();
         });
 });
 
-// builder.Services.AddSingleton<MqttServerService>();
+var contactPoint = Environment.GetEnvironmentVariable("CASSANDRA_HOST") ?? "";
+var username_cass = Environment.GetEnvironmentVariable("CASSANDRA_USERNAME") ?? "";
+var password_cass = Environment.GetEnvironmentVariable("CASSANDRA_PASSWORD") ?? "";
+var keySpace = Environment.GetEnvironmentVariable("CASSANDRA_KEYSPACE") ?? "";
+#pragma warning disable CS0612 // Type or member is obsolete
+var mqtt = new MQTTManager(new MQTTRepository(new CassandraContext(contactPoint, username_cass, password_cass, keySpace)));
+#pragma warning restore CS0612 // Type or member is obsolete
 
 var app = builder.Build();
 
@@ -113,6 +124,6 @@ app.UseAuthentication();
 
 app.MapControllers();
 
-// app.MapHub<DeviceDataHub>("/hub/device-data");
+app.MapHub<DeviceDataHub>("/hub/device-data");
 
 app.Run();

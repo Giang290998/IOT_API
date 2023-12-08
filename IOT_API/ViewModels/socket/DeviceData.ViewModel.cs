@@ -15,6 +15,12 @@ public class DeviceDataViewModel
     [Required(ErrorMessage = "Data list is required")]
     public List<string>? Data { get; set; }
 
+    public DeviceDataViewModel(int projectId, List<string>? data)
+    {
+        ProjectId = projectId;
+        Data = data;
+    }
+
     // [Column("time")]
     // public DateTimeOffset Time { get; set; }
 }

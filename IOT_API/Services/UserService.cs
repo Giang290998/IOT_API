@@ -38,5 +38,10 @@ public class UserService : IUserService
         return _repository.GetByPhone(phone);
     }
 
+    public Task<User?> GetById(int id)
+    {
+        return _repository.GetById(id);
+    }
+
     // Các phương thức khác tương tự như trong IUserRepository
 }

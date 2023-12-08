@@ -30,16 +30,27 @@ public class ProjectService : IProjectService
         string? IP = updateProjectViewModel.Ip;
         string? MAC = updateProjectViewModel.Mac;
 
-        Console.WriteLine(staff);
+        try
+        {
 
-        if (own != 0) return await _repository.UpdateOwn(own);
-        if (staff != null && staff.Any()) return await _repository.UpdateStaff("2", 1);
-        if (!Name.IsNullOrEmpty()) return await _repository.UpdateName(Name);
-        if (!PlantList.IsNullOrEmpty()) return await _repository.UpdatePlantList(PlantList);
-        if (!DeviceList.IsNullOrEmpty()) return await _repository.UpdateDeviceList(DeviceList);
-        if (!IP.IsNullOrEmpty()) return await _repository.UpdateIP(IP);
-        if (!MAC.IsNullOrEmpty()) return await _repository.UpdateMAC(MAC);
+            bool is_authenticate = await _repository.Authenticate(project_id);
 
-        return await Task.FromResult(false);
+            if (!is_authenticate) throw new UnauthorizedAccessException();
+
+            if (own != 0) return await _repository.UpdateOwn(own);
+            if (staff != null && staff.Any()) return await _repository.UpdateStaff("2", 1);
+            if (!Name.IsNullOrEmpty()) return await _repository.UpdateName(Name);
+            if (!PlantList.IsNullOrEmpty()) return await _repository.UpdatePlantList(PlantList);
+            if (!DeviceList.IsNullOrEmpty()) return await _repository.UpdateDeviceList(DeviceList);
+            if (!IP.IsNullOrEmpty()) return await _repository.UpdateIP(IP);
+            if (!MAC.IsNullOrEmpty()) return await _repository.UpdateMAC(MAC);
+
+            return await Task.FromResult(false);
+        }
+        catch (Exception)
+        {
+            throw new UnauthorizedAccessException();
+        }
+
     }
 }

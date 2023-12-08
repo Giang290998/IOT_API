@@ -41,7 +41,7 @@ public class JwtAuthorizeFilter : IAuthorizationFilter
             }
 
             var user_id = int.Parse(jwtToken.Claims.FirstOrDefault(claim => claim.Type == "nameid")?.Value ?? "0");
-            var role = int.Parse(jwtToken.Claims.FirstOrDefault(claim => claim.Type == "role")?.Value ?? "");
+            // var role = int.Parse(jwtToken.Claims.FirstOrDefault(claim => claim.Type == "role")?.Value ?? "");
 
             if (user_id == 0)
             {
@@ -50,7 +50,7 @@ public class JwtAuthorizeFilter : IAuthorizationFilter
             }
 
             context.HttpContext.Items["user_id"] = user_id;
-            context.HttpContext.Items["role"] = role;
+            // context.HttpContext.Items["role"] = role;
         }
         catch (Exception)
         {

@@ -20,7 +20,7 @@ public class DeviceData
 
     public DeviceData() { }
 
-    public DeviceData(Guid id, int projectId, List<string>? data, DateTimeOffset time)
+    public DeviceData(Guid id, int projectId, List<string> data, DateTimeOffset time)
     {
         Id = id;
         ProjectId = projectId;

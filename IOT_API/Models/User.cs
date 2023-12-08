@@ -12,6 +12,7 @@ public class UserReturn
     public string? Email { get; set; }
     public string? Name { get; set; }
     public string? Address { get; set; }
+    public bool IsActive { get; set; }
 }
 
 [Table("users")]
@@ -59,7 +60,8 @@ public class User
     // [Column("level")]
     // public short? Level { get; set; }
 
-    // public bool? IsActive { get; set; }
+    [Column("is_active")]
+    public bool IsActive { get; set; }
 
     // public bool? IsAuthenticatedMail { get; set; }
 
@@ -74,7 +76,8 @@ public class User
             Phone = Phone,
             Email = Email ?? "",
             Name = Name,
-            Address = Address ?? ""
+            Address = Address ?? "",
+            IsActive = IsActive
         };
     }
 }

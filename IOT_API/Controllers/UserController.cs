@@ -4,6 +4,8 @@ using IOT_API.ViewModels;
 using IOT_API.Helper;
 using IOT_API.Attributes;
 using IOT_API.Models;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
 
 namespace IOT_API.Controllers;
 
@@ -46,7 +48,7 @@ public class UserController : ControllerBase
 
     [HttpGet]
     [Route("login")]
-    public async Task<IActionResult> Login([FromBody] LoginViewModel loginViewModel)
+    public async Task<IActionResult> Login([FromQuery] LoginViewModel loginViewModel)
     {
         if (loginViewModel == null) return BadRequest();
 
@@ -59,16 +61,16 @@ public class UserController : ControllerBase
                 string refresh_token = JWT.CreateRefreshToken(user.Id.ToString(), "USER", "1");
                 string persistent_token = JWT.CreatePersistentToken(user.Id.ToString(), "USER", "1");
 
-                var cookieOptions = new CookieOptions
-                {
-                    Expires = DateTime.Now.AddDays(30),
-                    HttpOnly = true
-                };
+                // var cookieOptions = new CookieOptions
+                // {
+                //     Expires = DateTime.Now.AddDays(30),
+                //     HttpOnly = true
+                // };
 
-                Response.Cookies.Append("persistent_token", persistent_token, cookieOptions);
-                Response.Cookies.Append("refresh_token", refresh_token, cookieOptions);
-                Response.Cookies.Append("access_token", access_token, cookieOptions);
-                return Ok(user.Return());
+                // Response.Cookies.Append("persistent_token", persistent_token, cookieOptions);
+                // Response.Cookies.Append("refresh_token", refresh_token, cookieOptions);
+                // Response.Cookies.Append("access_token", access_token, cookieOptions);
+                return Ok(new { access_token, refresh_token, persistent_token, user = user.Return() });
             }
             return BadRequest(new { Message = "Wrong phone or password." });
         }
@@ -76,6 +78,46 @@ public class UserController : ControllerBase
         {
             return BadRequest(new { ex.Message });
         }
+    }
+
+    [HttpGet]
+    [Route("login/persistent")]
+    public async Task<IActionResult> LoginPersistent()
+    {
+        if (HttpContext.Request.Headers.TryGetValue("persistent_token", out var bearerToken))
+        {
+            if (bearerToken.IsNullOrEmpty()) return BadRequest();
+
+            string token = bearerToken.FirstOrDefault()?.Split(" ")?.Last() ?? "";
+            bool is_valid = JWT.ValidatePersistentToken(token);
+
+            if (!is_valid) return Unauthorized();
+
+            string id = JWT.GetIdFromPayloadToken(token);
+            string role = JWT.GetRoleFromPayloadToken(token);
+
+            if (role == "USER")
+            {
+                User? user = await _service.GetById(int.Parse(id));
+
+                if (user == null) return BadRequest();
+
+                string new_access_token = JWT.CreateAccessToken(user.Id.ToString(), "USER", "1");
+                string new_refresh_token = JWT.CreateRefreshToken(user.Id.ToString(), "USER", "1");
+                string new_persistent_token = JWT.CreatePersistentToken(user.Id.ToString(), "USER", "1");
+
+                return Ok(new { new_access_token, new_refresh_token, new_persistent_token, user = user.Return() });
+            }
+
+            if (role == "ADMIN")
+            {
+
+            }
+
+            return BadRequest();
+        }
+
+        return BadRequest("Persistent Token not found in the request header.");
     }
 
 

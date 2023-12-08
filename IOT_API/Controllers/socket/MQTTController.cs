@@ -2,29 +2,22 @@
 // using IOT_API.Services;
 // using IOT_API.Models;
 // using IOT_API.ViewModels;
-// using IOT_API.Attributes;
 
 // namespace IOT_API.Controllers;
 
-// [Route("api/device-data")]
-// [ApiController]
-// public class DeviceDataController : ControllerBase
+// public class MQTTController 
 // {
 //     private readonly IDeviceDataService _service;
 //     private readonly IHttpContextAccessor _httpContextAccessor;
 
-//     public DeviceDataController(IDeviceDataService service, IHttpContextAccessor httpContextAccessor)
+//     public MQTTController(IDeviceDataService service, IHttpContextAccessor httpContextAccessor)
 //     {
 //         _service = service;
 //         _httpContextAccessor = httpContextAccessor;
 //     }
 
-//     [HttpPost]
-//     [Route("create")]
-//     public async Task<IActionResult> Create([FromBody] DeviceDataViewModel notificationViewModel)
+//     public async Task<IActionResult> CreateSensorIssue(string issue)
 //     {
-//         if (notificationViewModel == null) return BadRequest();
-
 //         try
 //         {
 //             bool is_create = await _service.Create(notificationViewModel);
@@ -37,8 +30,6 @@
 //         }
 //     }
 
-//     [HttpGet]
-//     [Route("all")]
 //     public async Task<IActionResult> GetAll()
 //     {
 //         // if (_httpContextAccessor.HttpContext == null) return Unauthorized();

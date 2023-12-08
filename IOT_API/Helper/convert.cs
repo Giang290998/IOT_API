@@ -17,4 +17,15 @@ public static class ConvertCustom
         data += "]";
         return data;
     }
+
+    public static List<string> ConvertStringToList(string input)
+    {
+        // Chia chuỗi thành mảng các chuỗi con sử dụng ", " làm dấu phân cách
+        string[] stringArray = input.Split(new string[] { ", " }, StringSplitOptions.None);
+
+        // Chuyển đổi mảng thành danh sách
+        List<string> resultList = stringArray.ToList();
+
+        return resultList;
+    }
 }
