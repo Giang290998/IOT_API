@@ -1429,3 +1429,76 @@ Microsoft.IdentityModel.Tokens.SecurityTokenInvalidAudienceException: IDX10206: 
 2023-12-09 10:54:32.488 +07:00 [INF] Executed endpoint 'IOT_API.Controllers.ProjectController.GetAllDeviceData (IOT_API)'
 2023-12-09 10:54:32.488 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5030/api/project/device-data?project_id=1 - - - 200 - application/json;+charset=utf-8 32.4200ms
 2023-12-09 11:01:03.624 +07:00 [INF] Application is shutting down...
+2023-12-09 11:02:52.506 +07:00 [INF] User profile is available. Using 'C:\Users\ASUS\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2023-12-09 11:02:52.578 +07:00 [INF] Now listening on: http://localhost:5030
+2023-12-09 11:02:52.579 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-12-09 11:02:52.580 +07:00 [INF] Hosting environment: Development
+2023-12-09 11:02:52.580 +07:00 [INF] Content root path: D:\IOT\IOT_API
+2023-12-09 11:09:11.890 +07:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5030/api/users/login/persistent - -
+2023-12-09 11:09:11.890 +07:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5030/api/users/login/persistent - -
+2023-12-09 11:09:11.981 +07:00 [INF] CORS policy execution successful.
+2023-12-09 11:09:11.983 +07:00 [INF] CORS policy execution successful.
+2023-12-09 11:09:11.991 +07:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5030/api/users/login/persistent - - - 204 - - 103.4818ms
+2023-12-09 11:09:11.992 +07:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5030/api/users/login/persistent - - - 204 - - 104.4768ms
+2023-12-09 11:09:12.001 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5030/api/users/login/persistent - -
+2023-12-09 11:09:12.016 +07:00 [INF] CORS policy execution successful.
+2023-12-09 11:09:12.019 +07:00 [WRN] Failed to determine the https port for redirect.
+2023-12-09 11:09:12.076 +07:00 [INF] Executing endpoint 'IOT_API.Controllers.UserController.LoginPersistent (IOT_API)'
+2023-12-09 11:09:12.107 +07:00 [INF] Route matched with {action = "LoginPersistent", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] LoginPersistent() on controller IOT_API.Controllers.UserController (IOT_API).
+2023-12-09 11:09:14.230 +07:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType5`4[[System.String, System.Private.CoreLib, Version=7.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=7.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=7.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[IOT_API.Models.UserReturn, IOT_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2023-12-09 11:09:14.298 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5030/api/users/login/persistent - -
+2023-12-09 11:09:14.298 +07:00 [INF] CORS policy execution successful.
+2023-12-09 11:09:14.301 +07:00 [INF] Executing endpoint 'IOT_API.Controllers.UserController.LoginPersistent (IOT_API)'
+2023-12-09 11:09:14.302 +07:00 [INF] Route matched with {action = "LoginPersistent", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] LoginPersistent() on controller IOT_API.Controllers.UserController (IOT_API).
+2023-12-09 11:09:14.302 +07:00 [INF] Executed action IOT_API.Controllers.UserController.LoginPersistent (IOT_API) in 2188.5287ms
+2023-12-09 11:09:14.304 +07:00 [INF] Executed endpoint 'IOT_API.Controllers.UserController.LoginPersistent (IOT_API)'
+2023-12-09 11:09:14.318 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5030/api/users/login/persistent - - - 200 - application/json;+charset=utf-8 2317.0524ms
+2023-12-09 11:09:14.354 +07:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType5`4[[System.String, System.Private.CoreLib, Version=7.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=7.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=7.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[IOT_API.Models.UserReturn, IOT_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2023-12-09 11:09:14.356 +07:00 [INF] Executed action IOT_API.Controllers.UserController.LoginPersistent (IOT_API) in 53.9445ms
+2023-12-09 11:09:14.356 +07:00 [INF] Executed endpoint 'IOT_API.Controllers.UserController.LoginPersistent (IOT_API)'
+2023-12-09 11:09:14.358 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5030/api/users/login/persistent - - - 200 - application/json;+charset=utf-8 59.9887ms
+2023-12-09 11:09:14.519 +07:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5030/api/project/alarm?project_id=1 - -
+2023-12-09 11:09:14.519 +07:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5030/api/project/device-data?project_id=1 - -
+2023-12-09 11:09:14.519 +07:00 [INF] CORS policy execution successful.
+2023-12-09 11:09:14.519 +07:00 [INF] CORS policy execution successful.
+2023-12-09 11:09:14.520 +07:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5030/api/project/alarm?project_id=1 - - - 204 - - 0.6193ms
+2023-12-09 11:09:14.520 +07:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5030/api/project/device-data?project_id=1 - - - 204 - - 0.6148ms
+2023-12-09 11:09:14.524 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5030/api/project/alarm?project_id=1 - -
+2023-12-09 11:09:14.524 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5030/api/project/device-data?project_id=1 - -
+2023-12-09 11:09:14.527 +07:00 [INF] CORS policy execution successful.
+2023-12-09 11:09:14.527 +07:00 [INF] CORS policy execution successful.
+2023-12-09 11:09:14.536 +07:00 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenInvalidAudienceException: IDX10206: Unable to validate audience. The 'audiences' parameter is empty.
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateAudience(IEnumerable`1 audiences, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.ValidateAudience(IEnumerable`1 audiences, JwtSecurityToken jwtToken, TokenValidationParameters validationParameters)
+   at System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.ValidateTokenPayload(JwtSecurityToken jwtToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.ValidateJWS(String token, TokenValidationParameters validationParameters, BaseConfiguration currentConfiguration, SecurityToken& signatureValidatedToken, ExceptionDispatchInfo& exceptionThrown)
+--- End of stack trace from previous location ---
+   at System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.ValidateToken(String token, JwtSecurityToken outerToken, TokenValidationParameters validationParameters, SecurityToken& signatureValidatedToken)
+   at System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.ValidateToken(String token, TokenValidationParameters validationParameters, SecurityToken& validatedToken)
+   at Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerHandler.HandleAuthenticateAsync()
+2023-12-09 11:09:14.536 +07:00 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenInvalidAudienceException: IDX10206: Unable to validate audience. The 'audiences' parameter is empty.
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateAudience(IEnumerable`1 audiences, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.ValidateAudience(IEnumerable`1 audiences, JwtSecurityToken jwtToken, TokenValidationParameters validationParameters)
+   at System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.ValidateTokenPayload(JwtSecurityToken jwtToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.ValidateJWS(String token, TokenValidationParameters validationParameters, BaseConfiguration currentConfiguration, SecurityToken& signatureValidatedToken, ExceptionDispatchInfo& exceptionThrown)
+--- End of stack trace from previous location ---
+   at System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.ValidateToken(String token, JwtSecurityToken outerToken, TokenValidationParameters validationParameters, SecurityToken& signatureValidatedToken)
+   at System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.ValidateToken(String token, TokenValidationParameters validationParameters, SecurityToken& validatedToken)
+   at Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerHandler.HandleAuthenticateAsync()
+2023-12-09 11:09:14.553 +07:00 [INF] Bearer was not authenticated. Failure message: IDX10206: Unable to validate audience. The 'audiences' parameter is empty.
+2023-12-09 11:09:14.553 +07:00 [INF] Bearer was not authenticated. Failure message: IDX10206: Unable to validate audience. The 'audiences' parameter is empty.
+2023-12-09 11:09:14.553 +07:00 [INF] Executing endpoint 'IOT_API.Controllers.ProjectController.GetAllDeviceData (IOT_API)'
+2023-12-09 11:09:14.553 +07:00 [INF] Executing endpoint 'IOT_API.Controllers.ProjectController.GetAllAlarm (IOT_API)'
+2023-12-09 11:09:14.573 +07:00 [INF] Route matched with {action = "GetAllDeviceData", controller = "Project"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllDeviceData(System.String) on controller IOT_API.Controllers.ProjectController (IOT_API).
+2023-12-09 11:09:14.573 +07:00 [INF] Route matched with {action = "GetAllAlarm", controller = "Project"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllAlarm(System.String) on controller IOT_API.Controllers.ProjectController (IOT_API).
+2023-12-09 11:09:15.180 +07:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[IOT_API.Models.Alarm, IOT_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2023-12-09 11:09:15.182 +07:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[IOT_API.Models.DeviceData, IOT_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2023-12-09 11:09:15.209 +07:00 [INF] Executed action IOT_API.Controllers.ProjectController.GetAllAlarm (IOT_API) in 636.523ms
+2023-12-09 11:09:15.210 +07:00 [INF] Executed endpoint 'IOT_API.Controllers.ProjectController.GetAllAlarm (IOT_API)'
+2023-12-09 11:09:15.210 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5030/api/project/alarm?project_id=1 - - - 200 - application/json;+charset=utf-8 685.7073ms
+2023-12-09 11:09:15.215 +07:00 [INF] Executed action IOT_API.Controllers.ProjectController.GetAllDeviceData (IOT_API) in 642.4133ms
+2023-12-09 11:09:15.216 +07:00 [INF] Executed endpoint 'IOT_API.Controllers.ProjectController.GetAllDeviceData (IOT_API)'
+2023-12-09 11:09:15.216 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5030/api/project/device-data?project_id=1 - - - 200 - application/json;+charset=utf-8 691.5305ms
+2023-12-09 16:48:07.210 +07:00 [INF] Application is shutting down...

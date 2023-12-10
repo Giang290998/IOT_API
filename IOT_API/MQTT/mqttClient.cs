@@ -9,6 +9,7 @@ using MQTTnet;
 using MQTTnet.Client;
 using MQTTnet.Packets;
 using MQTTnet.Protocol;
+using dotenv.net.Utilities;
 
 namespace IOT_API.MQTT;
 public class MQTTManager
@@ -216,11 +217,11 @@ public class MQTTManager
 
     private static MqttClientOptions GetMqttClientOptions()
     {
-        // return new MqttClientOptionsBuilder()
-        //     .WithTcpServer(Environment.GetEnvironmentVariable("MQTT_HOST"), int.Parse(Environment.GetEnvironmentVariable("MQTT_PORT") ?? ""))
-        //     .Build();
+        return new MqttClientOptionsBuilder()
+            .WithTcpServer(EnvReader.GetStringValue("MQTT_HOST"), int.Parse(EnvReader.GetStringValue("MQTT_PORT") ?? ""))
+            .Build();
 
-        return new MqttClientOptionsBuilder().WithWebSocketServer(o => o.WithUri("192.168.1.123:9001")).Build();
+        // return new MqttClientOptionsBuilder().WithWebSocketServer(o => o.WithUri("192.168.1.123:9001")).Build();
     }
 
 }

@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using dotenv.net.Utilities;
 
 namespace IOT_API.Models;
 
@@ -32,11 +33,11 @@ public class PostGISContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
         // DotNetEnv.Env.Load();
-        var host = Environment.GetEnvironmentVariable("HOST");
-        var port = Environment.GetEnvironmentVariable("PORT");
-        var database = Environment.GetEnvironmentVariable("DATABASE");
-        var username = Environment.GetEnvironmentVariable("USERNAME");
-        var password = Environment.GetEnvironmentVariable("PASSWORD");
+        var host = EnvReader.GetStringValue("HOST");
+        var port = EnvReader.GetStringValue("PORT");
+        var database = EnvReader.GetStringValue("DATABASE");
+        var username = EnvReader.GetStringValue("USERNAME");
+        var password = EnvReader.GetStringValue("PASSWORD");
         string connectionString = $"Host={host};Port={port};Database={database};Username={username};Password={password}";
         options.UseNpgsql(connectionString);
     }

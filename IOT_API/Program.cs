@@ -8,9 +8,11 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using IOT_API.MQTT;
 using IOT_API.Hubs;
+using dotenv.net;
 
 
-DotNetEnv.Env.Load();
+DotEnv.Load(options: new DotEnvOptions(ignoreExceptions: false));
+var envVars = DotEnv.Read();
 Log.Logger = new LoggerConfiguration()
     .WriteTo.File("log.txt", rollingInterval: RollingInterval.Day)
     .CreateLogger();
@@ -23,11 +25,11 @@ builder.Host.UseSerilog();
 
 builder.Services.AddControllers();
 
-var host = Environment.GetEnvironmentVariable("HOST");
-var port = Environment.GetEnvironmentVariable("PORT");
-var database = Environment.GetEnvironmentVariable("DATABASE");
-var username = Environment.GetEnvironmentVariable("USERNAME");
-var password = Environment.GetEnvironmentVariable("PASSWORD");
+var host = envVars["HOST"];
+var port = envVars["PORT"];
+var database = envVars["DATABASE"];
+var username = envVars["USERNAME"];
+var password = envVars["PASSWORD"];
 string connectionString = $"Host={host};Port={port};Database={database};Username={username};Password={password}";
 
 builder.Services.AddDbContext<PostGISContext>(options =>
@@ -35,10 +37,10 @@ builder.Services.AddDbContext<PostGISContext>(options =>
 );
 builder.Services.AddSingleton(provider =>
     {
-        var contactPoint = Environment.GetEnvironmentVariable("CASSANDRA_HOST") ?? "";
-        var username = Environment.GetEnvironmentVariable("CASSANDRA_USERNAME") ?? "";
-        var password = Environment.GetEnvironmentVariable("CASSANDRA_PASSWORD") ?? "";
-        var keySpace = Environment.GetEnvironmentVariable("CASSANDRA_KEYSPACE") ?? "";
+        var contactPoint = envVars["CASSANDRA_HOST"];
+        var username = envVars["CASSANDRA_USERNAME"];
+        var password = envVars["CASSANDRA_PASSWORD"];
+        var keySpace = envVars["CASSANDRA_KEYSPACE"];
 
         return new CassandraContext(contactPoint, username, password, keySpace);
     });
@@ -77,7 +79,7 @@ builder.Services.AddAuthentication(
             ValidateIssuerSigningKey = true,
             ValidIssuer = "your_issuer",
             ValidAudience = "your_audience",
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_AT_KEY") ?? ""))
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(envVars["JWT_AT_KEY"] ?? ""))
         };
     }
 );
@@ -88,17 +90,17 @@ builder.Services.AddCors(options =>
     options.AddDefaultPolicy(
         policy =>
         {
-            policy.WithOrigins(Environment.GetEnvironmentVariable("IOT_CLIENT") ?? "*");
+            policy.WithOrigins(envVars["IOT_CLIENT"] ?? "*");
             policy.AllowCredentials();
             policy.AllowAnyHeader();
             policy.AllowAnyMethod();
         });
 });
 
-var contactPoint = Environment.GetEnvironmentVariable("CASSANDRA_HOST") ?? "";
-var username_cass = Environment.GetEnvironmentVariable("CASSANDRA_USERNAME") ?? "";
-var password_cass = Environment.GetEnvironmentVariable("CASSANDRA_PASSWORD") ?? "";
-var keySpace = Environment.GetEnvironmentVariable("CASSANDRA_KEYSPACE") ?? "";
+var contactPoint = envVars["CASSANDRA_HOST"];
+var username_cass = envVars["CASSANDRA_USERNAME"];
+var password_cass = envVars["CASSANDRA_PASSWORD"];
+var keySpace = envVars["CASSANDRA_KEYSPACE"];
 #pragma warning disable CS0612 // Type or member is obsolete
 var mqtt = new MQTTManager(new MQTTRepository(new CassandraContext(contactPoint, username_cass, password_cass, keySpace)));
 #pragma warning restore CS0612 // Type or member is obsolete

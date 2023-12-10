@@ -3,6 +3,7 @@ using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.IdentityModel.Tokens;
+using dotenv.net.Utilities;
 
 namespace IOT_API.Filters;
 
@@ -19,7 +20,7 @@ public class JwtAuthorizeFilter : IAuthorizationFilter
         }
 
         var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("JWT_AT_KEY") ?? "");
+        var key = Encoding.ASCII.GetBytes(EnvReader.GetStringValue("JWT_AT_KEY") ?? "");
         try
         {
             var claimsPrincipal = tokenHandler.ValidateToken(token, new TokenValidationParameters
