@@ -72,9 +72,9 @@ public class AdminController : ControllerBase
             }
             return BadRequest(new { Message = "Wrong phone or password." });
         }
-        catch (ArgumentException ex)
+        catch (Exception)
         {
-            return BadRequest(new { ex.Message });
+            return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
 
@@ -92,9 +92,9 @@ public class AdminController : ControllerBase
             if (project_id != 0) return Ok(project_id);
             return BadRequest();
         }
-        catch (ArgumentException ex)
+        catch (Exception)
         {
-            return BadRequest(ex.Message);
+            return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
 

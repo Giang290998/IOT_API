@@ -1,6 +1,8 @@
 using IOT_API.Repositories;
 using IOT_API.Models;
 using IOT_API.ViewModels;
+using IOT_API.Filters;
+using System.Net;
 
 namespace IOT_API.Services;
 
@@ -31,13 +33,13 @@ public class MQTTService : IMQTTService
         {
             bool is_authenticate = await _projectRepository.Authenticate(project_id);
 
-            if (!is_authenticate) throw new UnauthorizedAccessException();
+            if (!is_authenticate) throw new HttpResponseException(HttpStatusCode.Unauthorized);
 
             return await _repository.GetAllAlarm(project_id);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            throw new ArgumentException(ex.Message);
+            throw new HttpResponseException(HttpStatusCode.InternalServerError);
         }
     }
 
@@ -47,13 +49,13 @@ public class MQTTService : IMQTTService
         {
             bool is_authenticate = await _projectRepository.Authenticate(project_id);
 
-            if (!is_authenticate) throw new UnauthorizedAccessException();
+            if (!is_authenticate) throw new HttpResponseException(HttpStatusCode.Unauthorized);
 
             return await _repository.GetAllDeviceData(project_id);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            throw new ArgumentException(ex.Message);
+            throw new HttpResponseException(HttpStatusCode.InternalServerError);
         }
     }
 }

@@ -39,9 +39,9 @@ public class UserController : ControllerBase
             if (new_user_id == 0) return BadRequest(new { Message = "User exist." });
             return Ok(new { user_id = new_user_id });
         }
-        catch (ArgumentException ex)
+        catch (Exception)
         {
-            return BadRequest(new { ex.Message });
+            return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
 
@@ -74,9 +74,9 @@ public class UserController : ControllerBase
             }
             return BadRequest(new { Message = "Wrong phone or password." });
         }
-        catch (ArgumentException ex)
+        catch (Exception)
         {
-            return BadRequest(new { ex.Message });
+            return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
 
@@ -84,40 +84,47 @@ public class UserController : ControllerBase
     [Route("login/persistent")]
     public async Task<IActionResult> LoginPersistent()
     {
-        if (HttpContext.Request.Headers.TryGetValue("persistent_token", out var bearerToken))
+        try
         {
-            if (bearerToken.IsNullOrEmpty()) return BadRequest();
-
-            string token = bearerToken.FirstOrDefault()?.Split(" ")?.Last() ?? "";
-            bool is_valid = JWT.ValidatePersistentToken(token);
-
-            if (!is_valid) return Unauthorized();
-
-            string id = JWT.GetIdFromPayloadToken(token);
-            string role = JWT.GetRoleFromPayloadToken(token);
-
-            if (role == "USER")
+            if (HttpContext.Request.Headers.TryGetValue("persistent_token", out var bearerToken))
             {
-                User? user = await _service.GetById(int.Parse(id));
+                if (bearerToken.IsNullOrEmpty()) return BadRequest();
 
-                if (user == null) return BadRequest();
+                string token = bearerToken.FirstOrDefault()?.Split(" ")?.Last() ?? "";
+                bool is_valid = JWT.ValidatePersistentToken(token);
 
-                string new_access_token = JWT.CreateAccessToken(user.Id.ToString(), "USER", "1");
-                string new_refresh_token = JWT.CreateRefreshToken(user.Id.ToString(), "USER", "1");
-                string new_persistent_token = JWT.CreatePersistentToken(user.Id.ToString(), "USER", "1");
+                if (!is_valid) return Unauthorized();
 
-                return Ok(new { new_access_token, new_refresh_token, new_persistent_token, user = user.Return() });
+                string id = JWT.GetIdFromPayloadToken(token);
+                string role = JWT.GetRoleFromPayloadToken(token);
+
+                if (role == "USER")
+                {
+                    User? user = await _service.GetById(int.Parse(id));
+
+                    if (user == null) return BadRequest();
+
+                    string new_access_token = JWT.CreateAccessToken(user.Id.ToString(), "USER", "1");
+                    string new_refresh_token = JWT.CreateRefreshToken(user.Id.ToString(), "USER", "1");
+                    string new_persistent_token = JWT.CreatePersistentToken(user.Id.ToString(), "USER", "1");
+
+                    return Ok(new { new_access_token, new_refresh_token, new_persistent_token, user = user.Return() });
+                }
+
+                if (role == "ADMIN")
+                {
+
+                }
+
+                return BadRequest();
             }
 
-            if (role == "ADMIN")
-            {
-
-            }
-
-            return BadRequest();
+            return BadRequest("Persistent Token not found in the request header.");
         }
-
-        return BadRequest("Persistent Token not found in the request header.");
+        catch (Exception)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
     }
 
 
@@ -134,9 +141,9 @@ public class UserController : ControllerBase
             if (is_send) return Ok();
             return BadRequest();
         }
-        catch (ArgumentException ex)
+        catch (Exception)
         {
-            return BadRequest(new { ex.Message });
+            return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
 
@@ -145,8 +152,6 @@ public class UserController : ControllerBase
     [JwtAuthorize]
     public async Task<IActionResult> ActiveUser([FromQuery(Name = "otp")] string user_provide_otp)
     {
-        if (_httpContextAccessor.HttpContext == null) return Unauthorized();
-
         if (user_provide_otp == null) return BadRequest(new { Message = "Empty OTP" });
 
         try
@@ -155,9 +160,9 @@ public class UserController : ControllerBase
             if (isValid) return Ok();
             return BadRequest();
         }
-        catch (ArgumentException ex)
+        catch (Exception)
         {
-            return BadRequest(new { ex.Message });
+            return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
 
@@ -166,17 +171,15 @@ public class UserController : ControllerBase
     [JwtAuthorize]
     public async Task<IActionResult> GetByPhone([FromBody] string phone)
     {
-        if (_httpContextAccessor.HttpContext == null) return Unauthorized();
-
         try
         {
             User? user = await _service.GetByPhone(phone);
             if (user != null) return Ok(user.Return());
             return BadRequest();
         }
-        catch (ArgumentException ex)
+        catch (Exception)
         {
-            return BadRequest(new { ex.Message });
+            return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
 }

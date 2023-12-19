@@ -6,14 +6,17 @@ namespace IOT_API.Models;
 // [Table("")]
 public class ProjectCassandra
 {
-    [Column("project_id")]
-    public int ProjectId { get; set; }
+    // [Column("id")]
+    public Guid? Id { get; set; }
 
-    [Column("device_name")]
-    public List<string>? DeviceName { get; set; }
+    // [Column("project_id")]
+    public int? project_id { get; set; }
 
-    [Column("device_spec")]
-    public string? DeviceSpec { get; set; }
+    // [Column("device_name")]
+    public List<string>? device_name { get; set; }
+
+    // [Column("device_spec")]
+    public Dictionary<string, List<short>>? device_spec { get; set; }
 
     // public ProjectCassandra() { }
 

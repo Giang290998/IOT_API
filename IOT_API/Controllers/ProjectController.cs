@@ -1,10 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using IOT_API.Services;
 using IOT_API.ViewModels;
-using IOT_API.Helper;
 using IOT_API.Attributes;
 using IOT_API.Models;
-using Microsoft.IdentityModel.Tokens;
 
 namespace IOT_API.Controllers;
 
@@ -32,7 +30,7 @@ public class ProjectController : ControllerBase
     [JwtAuthorize]
     public async Task<IActionResult> Update(UpdateProjectViewModel updateProjectViewModel)
     {
-        if (_httpContextAccessor.HttpContext == null) return Unauthorized();
+        if (updateProjectViewModel is null) return BadRequest();
 
         try
         {
@@ -40,9 +38,9 @@ public class ProjectController : ControllerBase
             if (is_success) return Ok();
             return BadRequest();
         }
-        catch (ArgumentException ex)
+        catch (Exception)
         {
-            return BadRequest(ex.Message);
+            return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
 
@@ -51,19 +49,17 @@ public class ProjectController : ControllerBase
     [JwtAuthorize]
     public async Task<IActionResult> GetAllDeviceData([FromQuery] string project_id)
     {
-        if (_httpContextAccessor.HttpContext == null) return Unauthorized();
+        if (!int.TryParse(project_id, out int p_id)) return BadRequest();
 
         try
         {
-            if (!int.TryParse(project_id, out int p_id)) return BadRequest();
-
             List<DeviceData>? device_data = await _mqttService.GetAllDeviceData(p_id);
 
             return Ok(device_data);
         }
-        catch (ArgumentException ex)
+        catch (Exception)
         {
-            return BadRequest(new { ex.Message });
+            return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
 
@@ -73,19 +69,36 @@ public class ProjectController : ControllerBase
     [JwtAuthorize]
     public async Task<IActionResult> GetAllAlarm([FromQuery] string project_id)
     {
-        if (_httpContextAccessor.HttpContext == null) return Unauthorized();
+        if (!int.TryParse(project_id, out int p_id)) return BadRequest();
 
         try
         {
-            if (!int.TryParse(project_id, out int p_id)) return BadRequest();
-
             List<Alarm>? alarm = await _mqttService.GetAllAlarm(p_id);
 
             return Ok(alarm);
         }
-        catch (ArgumentException ex)
+        catch (Exception)
         {
-            return BadRequest(new { ex.Message });
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+    }
+
+    [HttpGet]
+    [Route("detail")]
+    [JwtAuthorize]
+    public async Task<IActionResult> GetProjectDetail([FromQuery] string project_id)
+    {
+        if (!int.TryParse(project_id, out int p_id)) return BadRequest();
+
+        try
+        {
+            ProjectCassandra? detail = await _projectService.GetProjectDetail(p_id);
+
+            return Ok(detail);
+        }
+        catch (Exception)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
 

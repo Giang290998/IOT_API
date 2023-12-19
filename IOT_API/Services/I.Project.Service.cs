@@ -7,4 +7,5 @@ public interface IProjectService
 {
     Task<int> Create(CreateProjectViewModel createProjectViewModel);
     Task<bool> Update(UpdateProjectViewModel updateProjectViewModel);
+    Task<ProjectCassandra?> GetProjectDetail(int project_id);
 }

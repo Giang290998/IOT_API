@@ -3,6 +3,8 @@ using ISession = Cassandra.ISession;
 using IOT_API.ViewModels;
 using IOT_API.Helper;
 using Cassandra.Mapping;
+using IOT_API.Filters;
+using System.Net;
 
 namespace IOT_API.Repositories;
 
@@ -17,7 +19,7 @@ public class DeviceDataRepository : IDeviceDataRepository
 
     public Task<bool> Create(DeviceDataViewModel deviceDataViewModel)
     {
-        if (deviceDataViewModel.Data == null) throw new NotImplementedException();
+        if (deviceDataViewModel.Data == null) throw new HttpResponseException(HttpStatusCode.BadRequest);
         string data = ConvertCustom.ListStringToString(deviceDataViewModel.Data);
 
         string query = $"INSERT INTO device_data (id, project_id, data, time) VALUES (uuid(), 1, {data}, toTimestamp(now()));";

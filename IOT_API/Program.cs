@@ -9,6 +9,7 @@ using System.Text;
 using IOT_API.MQTT;
 using IOT_API.Hubs;
 using dotenv.net;
+using IOT_API.Filters;
 
 
 DotEnv.Load(options: new DotEnvOptions(ignoreExceptions: false));
@@ -96,6 +97,11 @@ builder.Services.AddCors(options =>
             policy.AllowAnyMethod();
         });
 });
+builder.Services.AddControllers(options =>
+    {
+        options.Filters.Add<HttpResponseExceptionFilter>();
+    }
+);
 
 var contactPoint = envVars["CASSANDRA_HOST"];
 var username_cass = envVars["CASSANDRA_USERNAME"];

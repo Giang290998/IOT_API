@@ -3,18 +3,22 @@ using IOT_API.Models;
 using IOT_API.ViewModels;
 using Microsoft.IdentityModel.Tokens;
 using IOT_API.Extensions;
+using Cassandra.Mapping;
+using ISession = Cassandra.ISession;
 
 namespace IOT_API.Repositories;
 
 public class ProjectRepository : IProjectRepository
 {
     private readonly PostGISContext _context;
+    private readonly CassandraContext _cassandraContext;
     private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public ProjectRepository(PostGISContext context, IHttpContextAccessor httpContextAccessor)
+    public ProjectRepository(PostGISContext context, IHttpContextAccessor httpContextAccessor, CassandraContext cassandraContext)
     {
         _context = context;
         _httpContextAccessor = httpContextAccessor;
+        _cassandraContext = cassandraContext;
     }
 
     public Task<int> Create(CreateProjectViewModel createProjectViewModel)
@@ -36,22 +40,30 @@ public class ProjectRepository : IProjectRepository
 
     public Task<bool> Authenticate(int project_id)
     {
-        int user_id = HttpContextExtension.GetUserId(_httpContextAccessor.HttpContext);
-
-        string query = $"SELECT EXISTS (SELECT 1 FROM projects WHERE id = {project_id} AND own = {user_id} AND is_delete = FALSE) AS result;";
-
-        var result = _context.Database.SqlQueryRaw<bool>(query).ToList();
-
-        if (result.FirstOrDefault())
+        try
         {
+            int user_id = HttpContextExtension.GetUserId(_httpContextAccessor.HttpContext);
+
+            string query = $"SELECT EXISTS (SELECT 1 FROM projects WHERE id = {project_id} AND own = {user_id} AND is_delete = FALSE) AS result;";
+
+            var result = _context.Database.SqlQueryRaw<bool>(query).ToList();
+
+            if (result.FirstOrDefault())
+            {
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
 
-            _httpContextAccessor.HttpContext.Items["project_id"] = project_id;
+                _httpContextAccessor.HttpContext.Items["project_id"] = project_id;
 
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
+            }
+
+            return Task.FromResult(result.FirstOrDefault());
+        }
+        catch (Exception)
+        {
+            return Task.FromResult(false);
         }
 
-        return Task.FromResult(result.FirstOrDefault());
     }
 
     public async Task<bool> UpdateOwn(int? user_id)
@@ -103,6 +115,21 @@ public class ProjectRepository : IProjectRepository
     {
         Console.WriteLine(MAC);
         return await Task.FromResult(true);
+    }
+
+    public Task<ProjectCassandra?> GetProjectDetail(int project_id)
+    {
+        ISession session = _cassandraContext.GetSession();
+
+        IMapper mapper = new Mapper(session);
+
+        string query = $"SELECT * FROM statistic.project WHERE project_id = {project_id} LIMIT 1;";
+
+        IEnumerable<ProjectCassandra>? device_data = mapper.Fetch<ProjectCassandra>(query);
+
+        // var result = session.Execute(query);
+
+        return Task.FromResult(device_data.FirstOrDefault());
     }
     // public async Task<User?> Login(LoginViewModel loginViewModel)
     // {

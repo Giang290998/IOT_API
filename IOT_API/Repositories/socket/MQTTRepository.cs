@@ -3,6 +3,8 @@ using ISession = Cassandra.ISession;
 using IOT_API.ViewModels;
 using IOT_API.Helper;
 using Cassandra.Mapping;
+using IOT_API.Filters;
+using System.Net;
 
 namespace IOT_API.Repositories;
 
@@ -17,7 +19,7 @@ public class MQTTRepository : IMQTTRepository
 
     public Task CreateSensorDataInterval(DeviceDataViewModel deviceDataViewModel)
     {
-        if (deviceDataViewModel.Data == null) throw new NotImplementedException();
+        if (deviceDataViewModel.Data == null) throw new HttpResponseException(HttpStatusCode.BadRequest);
         string data = ConvertCustom.ListStringToString(deviceDataViewModel.Data);
 
         string query = $"INSERT INTO device_data (id, project_id, data, time) VALUES (uuid(), 1, {data}, toTimestamp(now()));";
@@ -58,12 +60,13 @@ public class MQTTRepository : IMQTTRepository
 
         // IMapper mapper = new Mapper(session);
 
-        string query = $"INSERT INTO statistic.alarm (project_id, device, reason, message, time) " +
-            $"VALUES ({project_id}, {device}, '{reason}', '{message}', toTimestamp(now()));";
+        string query = $"INSERT INTO statistic.alarm (id, project_id, device, reason, message, time) VALUES (uuid(), {project_id}, {device}, '{reason}', '{message}', toTimestamp(now()));";
 
-        session.Execute(query);
+        var result = session.Execute(query);
 
-        return Task.FromResult(true);
+        if (result != null) return Task.FromResult(true);
+
+        return Task.FromResult(false);
     }
 
     public Task<List<Alarm>> GetAllAlarm(int project_id)

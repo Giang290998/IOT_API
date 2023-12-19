@@ -33,7 +33,7 @@ public class NotificationController : ControllerBase
         }
         catch (Exception)
         {
-            return BadRequest();
+            return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
 
@@ -51,7 +51,7 @@ public class NotificationController : ControllerBase
         }
         catch (Exception)
         {
-            return BadRequest();
+            return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
 }

@@ -4,6 +4,8 @@ using IOT_API.ViewModels;
 using IOT_API.Helper;
 using BCRYPT = BCrypt.Net.BCrypt;
 using IOT_API.Extensions;
+using IOT_API.Filters;
+using System.Net;
 
 namespace IOT_API.Repositories;
 
@@ -114,7 +116,7 @@ public class UserRepository : IUserRepository
         }
         catch (Exception)
         {
-            throw new Exception();
+            throw new HttpResponseException(HttpStatusCode.InternalServerError);
         }
     }
 
