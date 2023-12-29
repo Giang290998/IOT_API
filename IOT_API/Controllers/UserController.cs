@@ -82,21 +82,21 @@ public class UserController : ControllerBase
 
     [HttpGet]
     [Route("login/persistent")]
-    public async Task<IActionResult> LoginPersistent()
+    public async Task<IActionResult> LoginPersistent([FromQuery(Name = "token")] string persistent_token)
     {
         try
         {
-            if (HttpContext.Request.Headers.TryGetValue("persistent_token", out var bearerToken))
+            if (persistent_token != null)
             {
-                if (bearerToken.IsNullOrEmpty()) return BadRequest();
+                // if (bearerToken.IsNullOrEmpty()) return BadRequest();
 
-                string token = bearerToken.FirstOrDefault()?.Split(" ")?.Last() ?? "";
-                bool is_valid = JWT.ValidatePersistentToken(token);
+                // string token = bearerToken.FirstOrDefault()?.Split(" ")?.Last() ?? "";
+                bool is_valid = JWT.ValidatePersistentToken(persistent_token);
 
                 if (!is_valid) return Unauthorized();
 
-                string id = JWT.GetIdFromPayloadToken(token);
-                string role = JWT.GetRoleFromPayloadToken(token);
+                string id = JWT.GetIdFromPayloadToken(persistent_token);
+                string role = JWT.GetRoleFromPayloadToken(persistent_token);
 
                 if (role == "USER")
                 {
