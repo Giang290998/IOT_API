@@ -56,11 +56,9 @@ public class MQTTRepository : IMQTTRepository
         string reason = alarmData.Reason ?? "";
         string message = alarmData.Message ?? "";
 
-        SendAlarmSMS(project_id, device, reason);
-
         ISession session = _cassandraContext.GetSession();
 
-        // IMapper mapper = new Mapper(session);
+        SendAlarmSMS(project_id, device, reason, session);
 
         string query = $"INSERT INTO statistic.alarm (id, project_id, device, reason, message, time) VALUES (uuid(), {project_id}, {device}, '{reason}', '{message}', toTimestamp(now()));";
 
@@ -71,10 +69,8 @@ public class MQTTRepository : IMQTTRepository
         return Task.FromResult(false);
     }
 
-    private bool SendAlarmSMS(int project_id, int device, string reason)
+    private static bool SendAlarmSMS(int project_id, int device, string reason, ISession session)
     {
-        ISession session = _cassandraContext.GetSession();
-
         IMapper mapper = new Mapper(session);
 
         string query = $"SELECT * FROM project WHERE project_id = {project_id};";
@@ -87,7 +83,7 @@ public class MQTTRepository : IMQTTRepository
 
         string message = $"Device {p_cass.device_name?[device]} is having issue: {reason}";
 
-        TWILIO.SendSMS(p_cass.phone ?? "0326118868", message);
+        TWILIO.SendSMS(p_cass.phone ?? "0", message);
 
         return true;
     }

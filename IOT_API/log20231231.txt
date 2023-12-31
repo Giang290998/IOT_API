@@ -4,3 +4,37 @@
 2023-12-31 09:05:23.218 +07:00 [INF] Hosting environment: Development
 2023-12-31 09:05:23.218 +07:00 [INF] Content root path: D:\IOT\IOT_API
 2023-12-31 09:09:53.017 +07:00 [INF] Application is shutting down...
+2023-12-31 09:21:51.047 +07:00 [INF] User profile is available. Using 'C:\Users\ASUS\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2023-12-31 09:21:51.122 +07:00 [INF] Now listening on: http://0.0.0.0:5030
+2023-12-31 09:21:51.123 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-12-31 09:21:51.123 +07:00 [INF] Hosting environment: Development
+2023-12-31 09:21:51.123 +07:00 [INF] Content root path: D:\IOT\IOT_API
+2023-12-31 09:23:59.502 +07:00 [INF] User profile is available. Using 'C:\Users\ASUS\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2023-12-31 09:23:59.620 +07:00 [INF] Now listening on: http://0.0.0.0:5030
+2023-12-31 09:23:59.621 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-12-31 09:23:59.621 +07:00 [INF] Hosting environment: Development
+2023-12-31 09:23:59.622 +07:00 [INF] Content root path: D:\IOT\IOT_API
+2023-12-31 09:26:41.703 +07:00 [INF] User profile is available. Using 'C:\Users\ASUS\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2023-12-31 09:26:41.770 +07:00 [INF] Now listening on: http://0.0.0.0:5030
+2023-12-31 09:26:41.771 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-12-31 09:26:41.771 +07:00 [INF] Hosting environment: Development
+2023-12-31 09:26:41.771 +07:00 [INF] Content root path: D:\IOT\IOT_API
+2023-12-31 09:29:04.614 +07:00 [INF] Application is shutting down...
+2023-12-31 09:29:13.112 +07:00 [INF] User profile is available. Using 'C:\Users\ASUS\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2023-12-31 09:29:13.188 +07:00 [INF] Now listening on: http://0.0.0.0:5030
+2023-12-31 09:29:13.189 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-12-31 09:29:13.190 +07:00 [INF] Hosting environment: Development
+2023-12-31 09:29:13.190 +07:00 [INF] Content root path: D:\IOT\IOT_API
+2023-12-31 09:33:11.126 +07:00 [INF] Application is shutting down...
+2023-12-31 09:33:19.385 +07:00 [INF] User profile is available. Using 'C:\Users\ASUS\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2023-12-31 09:33:19.461 +07:00 [INF] Now listening on: http://0.0.0.0:5030
+2023-12-31 09:33:19.462 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-12-31 09:33:19.462 +07:00 [INF] Hosting environment: Development
+2023-12-31 09:33:19.462 +07:00 [INF] Content root path: D:\IOT\IOT_API
+2023-12-31 09:34:46.910 +07:00 [INF] Application is shutting down...
+2023-12-31 09:34:55.898 +07:00 [INF] User profile is available. Using 'C:\Users\ASUS\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2023-12-31 09:34:55.966 +07:00 [INF] Now listening on: http://0.0.0.0:5030
+2023-12-31 09:34:55.968 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-12-31 09:34:55.968 +07:00 [INF] Hosting environment: Development
+2023-12-31 09:34:55.968 +07:00 [INF] Content root path: D:\IOT\IOT_API
+2023-12-31 09:40:30.297 +07:00 [INF] Application is shutting down...
