@@ -56,6 +56,8 @@ public class MQTTRepository : IMQTTRepository
         string reason = alarmData.Reason ?? "";
         string message = alarmData.Message ?? "";
 
+        SendAlarmSMS(project_id, device, reason);
+
         ISession session = _cassandraContext.GetSession();
 
         // IMapper mapper = new Mapper(session);
@@ -67,6 +69,27 @@ public class MQTTRepository : IMQTTRepository
         if (result != null) return Task.FromResult(true);
 
         return Task.FromResult(false);
+    }
+
+    private bool SendAlarmSMS(int project_id, int device, string reason)
+    {
+        ISession session = _cassandraContext.GetSession();
+
+        IMapper mapper = new Mapper(session);
+
+        string query = $"SELECT * FROM project WHERE project_id = {project_id};";
+
+        IEnumerable<ProjectCassandra>? result = mapper.Fetch<ProjectCassandra>(query);
+
+        ProjectCassandra? p_cass = result.FirstOrDefault();
+
+        if (p_cass == null) return false;
+
+        string message = $"Device {p_cass.device_name?[device]} is having issue: {reason}";
+
+        TWILIO.SendSMS(p_cass.phone ?? "0326118868", message);
+
+        return true;
     }
 
     public Task<List<Alarm>> GetAllAlarm(int project_id)

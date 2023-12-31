@@ -18,6 +18,8 @@ public class ProjectCassandra
     // [Column("device_spec")]
     public Dictionary<string, List<short>>? device_spec { get; set; }
 
+    public string? phone { get; set; }
+
     // public ProjectCassandra() { }
 
     // public ProjectCassandra(int project_id, int device, string reason, string message)

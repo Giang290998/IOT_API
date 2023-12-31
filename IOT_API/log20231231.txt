@@ -1,0 +1,6 @@
+2023-12-31 09:05:22.902 +07:00 [INF] User profile is available. Using 'C:\Users\ASUS\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2023-12-31 09:05:23.216 +07:00 [INF] Now listening on: http://0.0.0.0:5030
+2023-12-31 09:05:23.218 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-12-31 09:05:23.218 +07:00 [INF] Hosting environment: Development
+2023-12-31 09:05:23.218 +07:00 [INF] Content root path: D:\IOT\IOT_API
+2023-12-31 09:09:53.017 +07:00 [INF] Application is shutting down...
